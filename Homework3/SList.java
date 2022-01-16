@@ -120,7 +120,7 @@ public class SList {
     SListNode first = head;
     SListNode second = first.next;
     while (second != null) {
-      if (first.equals(second)) {
+      if (first.item.equals(second.item)) {
         first.next = second.next;
       } else {
         first = first.next;

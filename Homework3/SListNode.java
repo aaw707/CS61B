@@ -34,8 +34,4 @@ class SListNode {
   SListNode(Object obj) {
     this(obj, null);
   }
-
-  public boolean equals(SListNode other) {
-    return this.item.equals(other.item);
-  }
 }
