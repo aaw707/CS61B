@@ -156,7 +156,6 @@ public class SList {
    **/
 
   public String toString() {
-    int i;
     Object obj;
     String result = "[  ";
 
@@ -209,12 +208,12 @@ public class SList {
 		       lst1.length());
     TestHelper.verify(lst1.length() == 0, 
 		      "length on newly constructed list failed");    
-    lst1.insertFront(new Integer(3));
+    lst1.insertFront(Integer.valueOf(3));
     System.out.println("Here is a list after insertFront(3) to an empty list: "
 		       + lst1.toString());
     TestHelper.verify(lst1.toString().equals("[  3  ]"),
 		      "InsertFront on empty list failed");
-    lst2.insertEnd(new Integer(5));
+    lst2.insertEnd(Integer.valueOf(5));
     System.out.println("Here is a list after insertEnd(5) on an empty list: "
 		       + lst2.toString());
     TestHelper.verify(lst2.toString().equals("[  5  ]"),
@@ -229,9 +228,9 @@ public class SList {
 
   private static void testAfterInsertFront() {
     SList lst1 = new SList();
-    lst1.insertFront(new Integer(3));
-    lst1.insertFront(new Integer(2));
-    lst1.insertFront(new Integer(1));
+    lst1.insertFront(Integer.valueOf(3));
+    lst1.insertFront(Integer.valueOf(2));
+    lst1.insertFront(Integer.valueOf(1));
     System.out.println();
     System.out.println("Here is a list after insertFront 3, 2, 1: "
 		       + lst1.toString());
@@ -245,7 +244,7 @@ public class SList {
 		       lst1.length());
     TestHelper.verify(lst1.length() == 3, 
 		      "length() after insertFront failed");
-    lst1.insertEnd(new Integer(4));
+    lst1.insertEnd(Integer.valueOf(4));
     System.out.println("Here is the same list after insertEnd(4): "
 		       + lst1.toString());
     TestHelper.verify(lst1.toString().equals("[  1  2  3  4  ]"),
@@ -260,8 +259,8 @@ public class SList {
 
   private static void testAfterInsertEnd() {
     SList lst1 = new SList();
-    lst1.insertEnd(new Integer(6));
-    lst1.insertEnd(new Integer(7));
+    lst1.insertEnd(Integer.valueOf(6));
+    lst1.insertEnd(Integer.valueOf(7));
     System.out.println();
     System.out.println("Here is a list after insertEnd 6, 7: "
 		       + lst1.toString());
@@ -273,7 +272,7 @@ public class SList {
 		       lst1.length());
     TestHelper.verify(lst1.length() == 2, 
 		      "length() after insertEndfailed");
-    lst1.insertFront(new Integer(5));
+    lst1.insertFront(Integer.valueOf(5));
     System.out.println("Here is the same list after insertFront(5): "
 		       + lst1.toString());
     TestHelper.verify(lst1.toString().equals("[  5  6  7  ]"),

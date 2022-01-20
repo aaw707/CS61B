@@ -113,7 +113,7 @@ public class Homework3 {
     int[] test5 = {3, 7, 7, 7, 4, 5, 5, 2, 0, 8, 8, 8, 8, 5};
     SList list5 = new SList();
     for (i = 0; i < test5.length; i++) {
-      list5.insertEnd(new Integer(test5[i]));
+      list5.insertEnd(Integer.valueOf(test5[i]));
     }
     System.out.println("squishing " + list5.toString() + ":");
     list5.squish();
@@ -125,7 +125,7 @@ public class Homework3 {
     int[] test6 = {6, 6, 6, 6, 6, 3, 6, 3, 6, 3, 3, 3, 3, 3, 3};
     SList list6 = new SList();
     for (i = 0; i < test6.length; i++) {
-      list6.insertEnd(new Integer(test6[i]));
+      list6.insertEnd(Integer.valueOf(test6[i]));
     }
     System.out.println("squishing " + list6.toString() + ":");
     list6.squish();
@@ -137,7 +137,7 @@ public class Homework3 {
     int[] test7 = {4, 4, 4, 4, 4};
     SList list7 = new SList();
     for (i = 0; i < test7.length; i++) {
-      list7.insertEnd(new Integer(test7[i]));
+      list7.insertEnd(Integer.valueOf(test7[i]));
     }
     System.out.println("squishing " + list7.toString() + ":");
     list7.squish();
@@ -149,7 +149,7 @@ public class Homework3 {
     int[] test8 = {0, 1, 2, 3, 4, 5, 6};
     SList list8 = new SList();
     for (i = 0; i < test8.length; i++) {
-      list8.insertEnd(new Integer(test8[i]));
+      list8.insertEnd(Integer.valueOf(test8[i]));
     }
     System.out.println("squishing " + list8.toString() + ":");
     list8.squish();
