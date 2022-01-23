@@ -74,7 +74,7 @@ public class PixImage {
    */
   public short getRed(int x, int y) {
     // Replace the following line with your solution.
-    return matrix[x][y].r;
+    return matrix[y][x].r;
   }
 
   /**
@@ -86,7 +86,7 @@ public class PixImage {
    */
   public short getGreen(int x, int y) {
     // Replace the following line with your solution.
-    return matrix[x][y].g;
+    return matrix[y][x].g;
   }
 
   /**
@@ -98,7 +98,7 @@ public class PixImage {
    */
   public short getBlue(int x, int y) {
     // Replace the following line with your solution.
-    return matrix[x][y].b;
+    return matrix[y][x].b;
   }
 
   /**
@@ -117,7 +117,7 @@ public class PixImage {
   public void setPixel(int x, int y, short red, short green, short blue) {
     // Your solution here.
     if (0 <= red && 0 <= green && 0 <= blue && red <= 255 && green <= 255 && blue <= 255) {
-      matrix[x][y] = new pixel(red, green, blue);
+      matrix[y][x] = new pixel(red, green, blue);
     }
   }
 
@@ -173,122 +173,26 @@ public class PixImage {
    * @return a blurred version of "this" PixImage.
    */
   public PixImage boxBlur(int numIterations) {
-    // Replace the following line with your solution.
+
     // if numIteration is invalid, return the original image
     if (numIterations <= 0) {
       return this;
     }
+    // numIteration is valid, proceed
     PixImage currentImage = this;
     PixImage newImage = this;
-    int boxSize;
-    int maxHeight = height - 1;
-    int maxWidth = width - 1;
     pixel target;
 
-    // create a new image to store the result
     for (int iteration = 0; iteration < numIterations; iteration++) {
-      /*
-      the project description implies the images to be processed are
-      at least 3*3 for height and width. therefore, the code doesn't 
-      include the case for smaller images
-      */
 
-      newImage = new PixImage(this.height, this.width);
+      // create a new image to store the result 
+      newImage = new PixImage(this.width, this.height);
 
-      // blur the corner pixels
-      // 2x2 box with (x, y) coordinate as each element
-      boxSize = 4;
-      
-      // top left corner      
-      int[][][] topLeft = {
-        {{0, 0}, {0, 1}}, 
-        {{1, 0}, {1, 1}}
-      };   
-      target = currentImage.blurBox(topLeft, boxSize);      
-      newImage.setPixel(0, 0, target.getR(), target.getG(), target.getB());
-
-      // top right corner
-      int[][][] topRight = {
-        {{0, maxWidth - 1}, {0, maxWidth}}, 
-        {{1, maxWidth - 1}, {1, maxWidth}}
-      };
-      target = currentImage.blurBox(topRight, boxSize);      
-      newImage.setPixel(0, maxWidth, target.getR(), target.getG(), target.getB());
-    
-      // bottom left corner
-      int[][][] bottomLeft = {
-        {{maxHeight - 1, 0}, {maxHeight - 1, 1}}, 
-        {{maxHeight, 0}, {maxHeight, 1}}
-      };
-      target = currentImage.blurBox(bottomLeft, boxSize);      
-      newImage.setPixel(maxHeight, 0, target.getR(), target.getG(), target.getB());
-
-      // bottom right corner
-      int[][][] bottomRight = {
-        {{maxHeight - 1, maxWidth - 1}, {maxHeight - 1, maxWidth}}, 
-        {{maxHeight, maxWidth - 1}, {maxHeight, maxWidth}}
-      };   
-      target = currentImage.blurBox(bottomRight, boxSize);      
-      newImage.setPixel(maxHeight, maxWidth, target.getR(), target.getG(), target.getB());
-
-      // blur the edges
-      boxSize = 6;
-
-      // left & right edges
-      // 3x2 box with (x, y) coordinate as each element    
-      for (int i = 1; i < maxHeight; i++) {
-
-        // left edge
-        int[][][] leftEdge = {
-          {{i - 1, 0}, {i - 1, 1}}, 
-          {{i, 0}, {i, 1}}, 
-          {{i + 1, 0}, {i + 1, 1}}
-        };
-        target = currentImage.blurBox(leftEdge, boxSize);
-        newImage.setPixel(i, 0, target.getR(), target.getG(), target.getB());
-
-        //right edge
-        int[][][] rightEdge = {
-          {{i - 1, maxWidth - 1}, {i - 1, maxWidth}}, 
-          {{i, maxWidth - 1}, {i, maxWidth}}, 
-          {{i + 1, maxWidth - 1}, {i + 1, maxWidth}}
-        };
-        target = currentImage.blurBox(rightEdge, boxSize);
-        newImage.setPixel(i, maxWidth, target.getR(), target.getG(), target.getB());
-      }
-
-      // top & bottom edges
-      // 2x3 box with (x, y) coordinate as each element  
-      for (int j = 1; j < maxWidth; j++) {
-        
-        // top edge
-        int[][][] topEdge = {
-          {{0, j - 1}, {0, j}, {0, j + 1}}, 
-          {{1, j - 1}, {1, j}, {1, j + 1}}
-        };
-        target = currentImage.blurBox(topEdge, boxSize);
-        newImage.setPixel(0, j, target.getR(), target.getG(), target.getB());
-
-        // bottom edge
-        int[][][] bottomEdge = {
-          {{maxHeight - 1, j - 1}, {maxHeight - 1, j}, {maxHeight - 1, j + 1}}, 
-          {{maxHeight, j - 1}, {maxHeight, j}, {maxHeight, j + 1}}
-        };
-        target = currentImage.blurBox(bottomEdge, boxSize);
-        newImage.setPixel(maxHeight, j, target.getR(), target.getG(), target.getB());
-      }
-
-      // blur the non-corner, non-edge pixels
-      boxSize = 9;
-      for (int i = 1; i < maxHeight; i++) {
-        for (int j = 1; j < maxWidth; j++) {
-          int [][][] centerPixel = {
-            {{i - 1, j - 1}, {i - 1, j}, {i - 1, j + 1}}, 
-            {{i, j - 1}, {i, j}, {i, j + 1}}, 
-            {{i + 1, j - 1}, {i + 1, j}, {i + 1, j + 1}
-          }};
-          target = currentImage.blurBox(centerPixel, boxSize);
-          newImage.setPixel(i, j, target.getR(), target.getG(), target.getB());
+      // loop over each pixel in the image
+      for (int y = 0; y < height; y++) { // each row
+        for (int x = 0; x < width; x++) { // each column          
+          target = currentImage.blurPixel(x, y);
+          newImage.setPixel(x, y, target.getR(), target.getG(), target.getB());
         }
       }
       // set the newly blurred image as the current image, for the possible next iteration of blurring
@@ -297,30 +201,49 @@ public class PixImage {
     return newImage;
   }
 
- private pixel blurBox(int[][][] box, int boxSize) {
-   // blur the pixels in the box and return the calculated pixel with averaged color   
+  /**
+  * blur the pixel with neighboring pixels and return the calculated pixel with averaged color   
+  * @param x the x-coordinate of the pixel.
+  * @param y the y-coordinate of the pixel.
+  **/
+  private pixel blurPixel(int x, int y) {   
 
-   short blurredRed = 0;
-   short blurredGreen = 0;
-   short blurredBlue = 0;
+    // coordinates of neighboring 9 elements
+      int [][][] box = {
+        {{x - 1, y - 1}, {x, y - 1}, {x + 1, y - 1}}, 
+        {{x - 1, y}, {x, y}, {x + 1, y}}, 
+        {{x - 1, y + 1}, {x, y + 1}, {x + 1, y + 1}
+      }};
+    // blurred values to be calculated
+    short blurredRed = 0;
+    short blurredGreen = 0;
+    short blurredBlue = 0;
+    // number of elements used in calculation
+    int boxSize = 0;
 
-   for (int[][] row : box) {
-     for (int [] coordinate : row) {
-       int i = coordinate[0];
-       int j = coordinate[1];
-       blurredRed += getRed(i, j);
-       blurredGreen += getGreen(i, j);
-       blurredBlue += getBlue(i, j);
-     }
-   }
-   blurredRed = (short) (blurredRed / boxSize);
-   blurredGreen = (short) (blurredGreen / boxSize);
-   blurredBlue = (short) (blurredBlue / boxSize);
+    // loop over the box
+    for (int[][] row : box) {
+      for (int [] column : row) {
+        int xCoord = column[0];
+        int yCoord = column[1];
 
-   pixel target = new pixel(blurredRed, blurredGreen, blurredBlue);
+        if (xCoord >= 0 && xCoord < width && yCoord >= 0 && yCoord < height) {
+          // only calculate the pixels within the boundary of the image
+          blurredRed += getRed(xCoord, yCoord);
+          blurredGreen += getGreen(xCoord, yCoord);
+          blurredBlue += getBlue(xCoord, yCoord);
+          boxSize++;
+        }
+      }
+    }
+    blurredRed = (short) (blurredRed / boxSize);
+    blurredGreen = (short) (blurredGreen / boxSize);
+    blurredBlue = (short) (blurredBlue / boxSize);
 
-   return target;
- }
+    pixel target = new pixel(blurredRed, blurredGreen, blurredBlue);
+
+    return target;
+  }
 
   /**
    * mag2gray() maps an energy (squared vector magnitude) in the range
@@ -365,14 +288,13 @@ public class PixImage {
   public PixImage sobelEdges() {
     // Replace the following line with your solution.
     PixImage newImage = new PixImage(this.width, this.height);
-
+    //System.out.println("width:" + width + " height:" + height);
     // loop over each pixel in the image
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-
-        long energy = energy(i, j);
+    for (int x = 0; x < width; x++) {
+      for (int y = 0; y < height; y++) {
+        long energy = energy(x, y);
         short intensity = mag2gray(energy);
-        newImage.setPixel(i, j, intensity, intensity, intensity);
+        newImage.setPixel(x, y, intensity, intensity, intensity);
       }
     }
     return newImage;
@@ -433,81 +355,12 @@ public class PixImage {
   public int[][][] getReflectedBox(int x, int y) {
     // return the x coordinate of the 9 neighboring element in the box
     // treate pixels on the boundary by reflecting the image across each boundary
-    int[][][] boxReturn;
-    if (x == 0 && y == 0) {
-      // top left corner
-      int[][][] box = {
-        {{0, 0}, {0, 0}, {0, 1}},
-        {{0, 0}, {0, 0}, {0, 1}},
-        {{1, 0}, {1, 0}, {1, 1}}
-      };
-      boxReturn = box;
-    } else if (x == 0 && y == width - 1) {
-      // top right corner
-      int[][][] box = {
-        {{0, width - 2}, {0, width - 1}, {0, width - 1}},
-        {{0, width - 2}, {0, width - 1}, {0, width - 1}},
-        {{1, width - 2}, {1, width - 1}, {1, width - 1}}
-      };
-      boxReturn = box;
-    } else if (x == height - 1 && y == 0) {
-      // bottom left corner
-      int[][][] box = {
-        {{height - 2, 0}, {height - 2, 0}, {height - 2, 1}},
-        {{height - 1, 0}, {height - 1, 0}, {height - 1, 1}},
-        {{height - 1, 0}, {height - 1, 0}, {height - 1, 1}}
-      };
-      boxReturn = box;
-    } else if (x == height - 1 && y == width - 1) {
-      // bottom right corner
-      int[][][] box = {
-        {{height - 2, width - 2}, {height - 2, width - 1}, {height - 2, width - 1}},
-        {{height - 1, width - 2}, {height - 1, width - 1}, {height - 1, width - 1}},
-        {{height - 1, width - 2}, {height - 1, width - 1}, {height - 1, width - 1}}
-      };
-      boxReturn = box;
-    } else if (x == 0) {
-      // top row, not corners
-      int[][][] box = {
-        {{0, y - 1}, {0, y}, {0, y + 1}},
-        {{0, y - 1}, {0, y}, {0, y + 1}},
-        {{1, y - 1}, {1, y}, {1, y + 1}}
-      };
-      boxReturn = box;
-    } else if (x == height - 1) {
-      // bottom row, not corners
-      int[][][] box = {
-        {{height - 2, y - 1}, {height - 2, y}, {height - 2, y + 1}},
-        {{height - 1, y - 1}, {height - 1, y}, {height - 1, y + 1}},
-        {{height - 1, y - 1}, {height - 1, y}, {height - 1, y + 1}}
-      };
-      boxReturn = box;
-    } else if (y == 0) {
-      // left edge, not corners
-      int[][][] box = {
-        {{x - 1, 0}, {x - 1, 0}, {x - 1, 1}},
-        {{x, 0}, {x, 0}, {x, 1}},
-        {{x + 1, 0}, {x + 1, 0}, {x + 1, 1}}
-      };
-      boxReturn = box;
-    } else if (y == width - 1) {
-      // right edge, not corners
-      int[][][] box = {
-        {{x - 1, width - 2}, {x - 1, width - 1}, {x - 1, width - 1}},
-        {{x, width - 2}, {x, width - 1}, {x, width - 1}},
-        {{x + 1, width - 2}, {x + 1, width - 1}, {x + 1, width - 1}}
-      };
-      boxReturn = box;
-    } else {
-      // center pixels
-      int[][][] box = {
-        {{x - 1, y - 1}, {x - 1, y}, {x - 1, y + 1}},
-        {{x, y - 1}, {x, y}, {x, y + 1}},
-        {{x + 1, y - 1}, {x + 1, y}, {x + 1, y + 1}}
-      };
-      boxReturn = box;
-    }
-    return boxReturn;
+    int[][][] box = {
+      {{Math.max(x - 1, 0), Math.max(y - 1, 0)}, {x, Math.max(y - 1, 0)}, {Math.min(x + 1, width - 1), Math.max(y - 1, 0)}},
+      {{Math.max(x - 1, 0), y}, {x, y}, {Math.min(x + 1, width - 1), y}},
+      {{Math.max(x - 1, 0), Math.min(y + 1, height - 1)}, {x, Math.min(y + 1, height - 1)}, {Math.min(x + 1, width - 1), Math.min(y + 1, height - 1)}}
+    };
+    return box;
   }
 
 
@@ -554,7 +407,6 @@ public class PixImage {
                        (short) pixels[x][y]);
       }
     }
-
     return image;
   }
 
