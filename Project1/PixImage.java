@@ -1,4 +1,5 @@
 package Project1;
+import java.lang.Math.*;
 /* PixImage.java */
 
 /**
@@ -199,34 +200,34 @@ public class PixImage {
       boxSize = 4;
       
       // top left corner      
-      int[][][] topLeft = {{
-          {0, 0}, {0, 1}}, {
-          {1, 0}, {1, 1}
-        }};   
+      int[][][] topLeft = {
+        {{0, 0}, {0, 1}}, 
+        {{1, 0}, {1, 1}}
+      };   
       target = currentImage.blurBox(topLeft, boxSize);      
       newImage.setPixel(0, 0, target.getR(), target.getG(), target.getB());
 
       // top right corner
-      int[][][] topRight = {{
-        {0, maxWidth - 1}, {0, maxWidth}}, {
-        {1, maxWidth - 1}, {1, maxWidth}
-      }};
+      int[][][] topRight = {
+        {{0, maxWidth - 1}, {0, maxWidth}}, 
+        {{1, maxWidth - 1}, {1, maxWidth}}
+      };
       target = currentImage.blurBox(topRight, boxSize);      
       newImage.setPixel(0, maxWidth, target.getR(), target.getG(), target.getB());
     
       // bottom left corner
-      int[][][] bottomLeft = {{
-        {maxHeight - 1, 0}, {maxHeight - 1, 1}}, {
-        {maxHeight, 0}, {maxHeight, 1}
-      }};
+      int[][][] bottomLeft = {
+        {{maxHeight - 1, 0}, {maxHeight - 1, 1}}, 
+        {{maxHeight, 0}, {maxHeight, 1}}
+      };
       target = currentImage.blurBox(bottomLeft, boxSize);      
       newImage.setPixel(maxHeight, 0, target.getR(), target.getG(), target.getB());
 
       // bottom right corner
-      int[][][] bottomRight = {{
-        {maxHeight - 1, maxWidth - 1}, {maxHeight - 1, maxWidth}}, {
-        {maxHeight, maxWidth - 1}, {maxHeight, maxWidth}
-      }};   
+      int[][][] bottomRight = {
+        {{maxHeight - 1, maxWidth - 1}, {maxHeight - 1, maxWidth}}, 
+        {{maxHeight, maxWidth - 1}, {maxHeight, maxWidth}}
+      };   
       target = currentImage.blurBox(bottomRight, boxSize);      
       newImage.setPixel(maxHeight, maxWidth, target.getR(), target.getG(), target.getB());
 
@@ -238,20 +239,20 @@ public class PixImage {
       for (int i = 1; i < maxHeight; i++) {
 
         // left edge
-        int[][][] leftEdge = {{
-          {i - 1, 0}, {i - 1, 1}}, {
-          {i, 0}, {i, 1}}, {
-          {i + 1, 0}, {i + 1, 1}
-        }};
+        int[][][] leftEdge = {
+          {{i - 1, 0}, {i - 1, 1}}, 
+          {{i, 0}, {i, 1}}, 
+          {{i + 1, 0}, {i + 1, 1}}
+        };
         target = currentImage.blurBox(leftEdge, boxSize);
         newImage.setPixel(i, 0, target.getR(), target.getG(), target.getB());
 
         //right edge
-        int[][][] rightEdge = {{
-          {i - 1, maxWidth - 1}, {i - 1, maxWidth}}, {
-          {i, maxWidth - 1}, {i, maxWidth}}, {
-          {i + 1, maxWidth - 1}, {i + 1, maxWidth}
-        }};
+        int[][][] rightEdge = {
+          {{i - 1, maxWidth - 1}, {i - 1, maxWidth}}, 
+          {{i, maxWidth - 1}, {i, maxWidth}}, 
+          {{i + 1, maxWidth - 1}, {i + 1, maxWidth}}
+        };
         target = currentImage.blurBox(rightEdge, boxSize);
         newImage.setPixel(i, maxWidth, target.getR(), target.getG(), target.getB());
       }
@@ -261,18 +262,18 @@ public class PixImage {
       for (int j = 1; j < maxWidth; j++) {
         
         // top edge
-        int[][][] topEdge = {{
-          {0, j - 1}, {0, j}, {0, j + 1}}, {
-          {1, j - 1}, {1, j}, {1, j + 1}
-        }};
+        int[][][] topEdge = {
+          {{0, j - 1}, {0, j}, {0, j + 1}}, 
+          {{1, j - 1}, {1, j}, {1, j + 1}}
+        };
         target = currentImage.blurBox(topEdge, boxSize);
         newImage.setPixel(0, j, target.getR(), target.getG(), target.getB());
 
         // bottom edge
-        int[][][] bottomEdge = {{
-          {maxHeight - 1, j - 1}, {maxHeight - 1, j}, {maxHeight - 1, j + 1}}, {
-          {maxHeight, j - 1}, {maxHeight, j}, {maxHeight, j + 1}
-        }};
+        int[][][] bottomEdge = {
+          {{maxHeight - 1, j - 1}, {maxHeight - 1, j}, {maxHeight - 1, j + 1}}, 
+          {{maxHeight, j - 1}, {maxHeight, j}, {maxHeight, j + 1}}
+        };
         target = currentImage.blurBox(bottomEdge, boxSize);
         newImage.setPixel(maxHeight, j, target.getR(), target.getG(), target.getB());
       }
@@ -281,10 +282,10 @@ public class PixImage {
       boxSize = 9;
       for (int i = 1; i < maxHeight; i++) {
         for (int j = 1; j < maxWidth; j++) {
-          int [][][] centerPixel = {{
-            {i - 1, j - 1}, {i - 1, j}, {i - 1, j + 1}}, {
-            {i, j - 1}, {i, j}, {i, j + 1}}, {
-            {i + 1, j - 1}, {i + 1, j}, {i + 1, j + 1}
+          int [][][] centerPixel = {
+            {{i - 1, j - 1}, {i - 1, j}, {i - 1, j + 1}}, 
+            {{i, j - 1}, {i, j}, {i, j + 1}}, 
+            {{i + 1, j - 1}, {i + 1, j}, {i + 1, j + 1}
           }};
           target = currentImage.blurBox(centerPixel, boxSize);
           newImage.setPixel(i, j, target.getR(), target.getG(), target.getB());
@@ -320,8 +321,6 @@ public class PixImage {
 
    return target;
  }
-
-
 
   /**
    * mag2gray() maps an energy (squared vector magnitude) in the range
@@ -365,6 +364,25 @@ public class PixImage {
    */
   public PixImage sobelEdges() {
     // Replace the following line with your solution.
+    PixImage newImage = new PixImage(this.width, this.height);
+
+    // loop over each pixel in the image
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+
+        long energy = energy(i, j);
+        short intensity = mag2gray(energy);
+        newImage.setPixel(i, j, intensity, intensity, intensity);
+      }
+    }
+    return newImage;
+    // Don't forget to use the method mag2gray() above to convert energies to
+    // pixel intensities.
+  }
+
+  public long energy(int x, int y) {
+
+    // convolutions
     int[][] gx = {
       {1, 0, -1}, 
       {2, 0, -2},
@@ -375,92 +393,124 @@ public class PixImage {
       {0, 0, 0},
       {-1, -2, -1}
     };
-    // X/Y coordinates of the neighbouring 9 elements
-    int[][] boxX; 
-    int[][] boxY;
-    // max index of height of width
-    int maxHeight = height - 1;
-    int maxWidth = width - 1;
+
+    // initialize gx and gy for each color
+    int gxRed = 0;
+    int gyRed = 0;
+
+    int gxGreen = 0;
+    int gyGreen = 0;
+
+    int gxBlue = 0;
+    int gyBlue = 0;  
+
+    // get the coordinates of the 9 neighboring elements
+    int[][][] box = getReflectedBox(x, y);
     
-    box = getReflectedBox(i);
+    // loop over each element in the box
+    for (int m = 0; m < 3; m++) {
+      for (int n = 0; n < 3; n++) {
+        int xCoord = box[m][n][0];
+        int yCoord = box[m][n][1];
+        
+        long redValue = (long) getRed(xCoord, yCoord);
+        gxRed += gx[m][n] * redValue;
+        gyRed += gy[m][n] * redValue;
 
+        long greenValue = (long) getGreen(xCoord, yCoord);
+        gxGreen += gx[m][n] * greenValue;
+        gyGreen += gy[m][n] * greenValue;
 
-
-
-
-
-
-
-
-
-    return this;
-    // Don't forget to use the method mag2gray() above to convert energies to
-    // pixel intensities.
+        long blueValue = (long) getBlue(xCoord, yCoord); 
+        gxBlue += gx[m][n] * blueValue;
+        gyBlue += gy[m][n] * blueValue;  
+      }
+    }    
+    long energy = gxRed*gxRed + gyRed*gyRed + gxGreen*gxGreen + gyGreen*gyGreen + gxBlue*gxBlue + gyBlue*gyBlue;
+    return energy;
   }
 
-  public int[][] getBoxX(int x) {
+  public int[][][] getReflectedBox(int x, int y) {
     // return the x coordinate of the 9 neighboring element in the box
     // treate pixels on the boundary by reflecting the image across each boundary
-    int[][] boxX;
-    if (x == 0) { 
-      // pixel in top row
-      int[][] box = {
-        {0, 0, 0},
-        {0, 0, 0},
-        {1, 1, 1}
+    int[][][] boxReturn;
+    if (x == 0 && y == 0) {
+      // top left corner
+      int[][][] box = {
+        {{0, 0}, {0, 0}, {0, 1}},
+        {{0, 0}, {0, 0}, {0, 1}},
+        {{1, 0}, {1, 0}, {1, 1}}
       };
-      boxX = box;
+      boxReturn = box;
+    } else if (x == 0 && y == width - 1) {
+      // top right corner
+      int[][][] box = {
+        {{0, width - 2}, {0, width - 1}, {0, width - 1}},
+        {{0, width - 2}, {0, width - 1}, {0, width - 1}},
+        {{1, width - 2}, {1, width - 1}, {1, width - 1}}
+      };
+      boxReturn = box;
+    } else if (x == height - 1 && y == 0) {
+      // bottom left corner
+      int[][][] box = {
+        {{height - 2, 0}, {height - 2, 0}, {height - 2, 1}},
+        {{height - 1, 0}, {height - 1, 0}, {height - 1, 1}},
+        {{height - 1, 0}, {height - 1, 0}, {height - 1, 1}}
+      };
+      boxReturn = box;
+    } else if (x == height - 1 && y == width - 1) {
+      // bottom right corner
+      int[][][] box = {
+        {{height - 2, width - 2}, {height - 2, width - 1}, {height - 2, width - 1}},
+        {{height - 1, width - 2}, {height - 1, width - 1}, {height - 1, width - 1}},
+        {{height - 1, width - 2}, {height - 1, width - 1}, {height - 1, width - 1}}
+      };
+      boxReturn = box;
+    } else if (x == 0) {
+      // top row, not corners
+      int[][][] box = {
+        {{0, y - 1}, {0, y}, {0, y + 1}},
+        {{0, y - 1}, {0, y}, {0, y + 1}},
+        {{1, y - 1}, {1, y}, {1, y + 1}}
+      };
+      boxReturn = box;
     } else if (x == height - 1) {
-      // pixel in the bottom row
-      int[][] box = {
-        {height - 2, height - 2, height - 2},
-        {height - 1, height - 1, height - 1},
-        {height - 1, height - 1, height - 1}
+      // bottom row, not corners
+      int[][][] box = {
+        {{height - 2, y - 1}, {height - 2, y}, {height - 2, y + 1}},
+        {{height - 1, y - 1}, {height - 1, y}, {height - 1, y + 1}},
+        {{height - 1, y - 1}, {height - 1, y}, {height - 1, y + 1}}
       };
-      boxX = box;
-    } else {
-      // pixel in the center
-      int[][] box = {
-        {x - 1, x - 1, x - 1},
-        {x, x, x},
-        {x + 1, x + 1, x + 1}
+      boxReturn = box;
+    } else if (y == 0) {
+      // left edge, not corners
+      int[][][] box = {
+        {{x - 1, 0}, {x - 1, 0}, {x - 1, 1}},
+        {{x, 0}, {x, 0}, {x, 1}},
+        {{x + 1, 0}, {x + 1, 0}, {x + 1, 1}}
       };
-      boxX = box;
-    }
-    return boxX;
-  }
-
-  public int[][] getBoxY(int y) {
-    // return the x coordinate of the 9 neighboring element in the box
-    // treate pixels on the boundary by reflecting the image across each boundary
-    int[][] boxY;
-    if (y == 0) { 
-      // pixel in the left edge
-      int[][] box = {
-        {0, 0, 1},
-        {0, 0, 1},
-        {0, 0, 1}
-      };
-      boxY = box;
+      boxReturn = box;
     } else if (y == width - 1) {
-      // pixel in the right edge
-      int[][] box = {
-        {width - 2, width - 1, width - 1},
-        {width - 2, width - 1, width - 1},
-        {width - 2, width - 1, width - 1}
+      // right edge, not corners
+      int[][][] box = {
+        {{x - 1, width - 2}, {x - 1, width - 1}, {x - 1, width - 1}},
+        {{x, width - 2}, {x, width - 1}, {x, width - 1}},
+        {{x + 1, width - 2}, {x + 1, width - 1}, {x + 1, width - 1}}
       };
-      boxY = box;
+      boxReturn = box;
     } else {
-      int[][] box = {
-        {y - 1, y, y + 1},
-        {y - 1, y, y + 1},
-        {y - 1, y, y + 1}
+      // center pixels
+      int[][][] box = {
+        {{x - 1, y - 1}, {x - 1, y}, {x - 1, y + 1}},
+        {{x, y - 1}, {x, y}, {x, y + 1}},
+        {{x + 1, y - 1}, {x + 1, y}, {x + 1, y + 1}}
       };
-      boxY = box;
+      boxReturn = box;
     }
-    return boxY;
-
+    return boxReturn;
   }
+
+
 
 
   /**
