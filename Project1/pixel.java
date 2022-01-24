@@ -34,4 +34,15 @@ public class pixel {
     public short getB() {
         return b;
     }
+
+    public boolean equals(pixel p) {
+        if (this != null && p == null) {
+            return false;
+        }
+        if (this.r == p.r && this.g == p.g && this.b == p.b) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

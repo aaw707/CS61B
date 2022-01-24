@@ -38,7 +38,6 @@ public class PixImage {
       System.out.println("The width and height of the image has to be positive integers.");
       return;
     }
-    // Your solution here.
     this.width = width;
     this.height = height;
     this.matrix = new pixel[height][width];
@@ -417,6 +416,10 @@ public class PixImage {
    * @return true if the specified PixImage is identical to "this" PixImage.
    */
   public boolean equals(PixImage image) {
+
+    System.out.println("this image:\n" + this);
+    System.out.println("compared image:\n" + this);
+
     int width = getWidth();
     int height = getHeight();
 
@@ -427,6 +430,12 @@ public class PixImage {
 
     for (int x = 0; x < width; x++) {
       for (int y = 0; y < height; y++) {
+        System.out.println("this.red:" + getRed(x, y));
+        System.out.println("this.green:" + getGreen(x, y));
+        System.out.println("this.blue:" + getBlue(x, y));
+        System.out.println("image.red:" + image.getRed(x, y));
+        System.out.println("image.green:" + image.getGreen(x, y));
+        System.out.println("image.blue:" + image.getBlue(x, y));
         if (! (getRed(x, y) == image.getRed(x, y) &&
                getGreen(x, y) == image.getGreen(x, y) &&
                getBlue(x, y) == image.getBlue(x, y))) {

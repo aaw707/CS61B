@@ -38,7 +38,7 @@ public class RunIterator implements Iterator {
    *  Define any variables associated with a RunIterator object here.
    *  These variables MUST be private.
    */
-    DListNode position;
+    DListNode node;
 
 
 
@@ -57,7 +57,7 @@ public class RunIterator implements Iterator {
   // implementation can construct a RunIterator that points to the first run of
   // the encoding.
   RunIterator(DListNode node) {
-    position = node;      
+    this.node = node;      
   }
 
   /**
@@ -67,7 +67,7 @@ public class RunIterator implements Iterator {
    *  @return true if the iterator has more elements.
    */
   public boolean hasNext() {
-    if (position.next.p == null) {
+    if (node.next.p == null) {
         return false;
     } else {
         return true;
@@ -99,8 +99,8 @@ public class RunIterator implements Iterator {
     // Construct a new array of 4 ints, fill in its values, and return it.
     // Don't forget to advance the RunIterator's pointer so that the next
     // call to next() will return the subsequent run.
-    position = position.next;
-    int[] nextNode = {position.runLength, position.p.r, position.p.g, position.p.b};
+    node = node.next;
+    int[] nextNode = {node.runLength, node.p.r, node.p.g, node.p.b};
 
     // Replace the following line with your solution.
     return nextNode;
