@@ -17,6 +17,12 @@ public class pixel {
         this.b = b;
     }
 
+    pixel(int r, int g, int b) {
+        this.r = (short) r;
+        this.g = (short) g;
+        this.b = (short) b;
+    }
+
     public short getR() {
         return r;
     }

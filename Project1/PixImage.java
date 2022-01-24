@@ -1,5 +1,4 @@
 package Project1;
-import java.lang.Math.*;
 /* PixImage.java */
 
 /**
@@ -25,9 +24,9 @@ public class PixImage {
    */
   private int width;
   private int height;
-  pixel[][] matrix;
+  private pixel[][] matrix; 
 
-  /**
+  /** 
    * PixImage() constructs an empty PixImage with a specified width and height.
    * Every pixel has red, green, and blue intensities of zero (solid black).
    *
