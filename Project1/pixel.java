@@ -36,7 +36,7 @@ public class pixel {
     }
 
     public boolean equals(pixel p) {
-        if (this != null && p == null) {
+        if (p == null || this == null) {
             return false;
         }
         if (this.r == p.r && this.g == p.g && this.b == p.b) {
@@ -44,5 +44,9 @@ public class pixel {
         } else {
             return false;
         }
+    }
+
+    public String toString() {
+        return "(" + r + "," + g + "," + b + ")";
     }
 }

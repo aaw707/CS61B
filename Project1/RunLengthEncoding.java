@@ -1,4 +1,5 @@
 package Project1;
+import java.util.Arrays;
 import java.util.Iterator;
 
 /* RunLengthEncoding.java */
@@ -158,12 +159,13 @@ public class RunLengthEncoding implements Iterable {
                 int index = positionInRun + cursor;
                 int x = index % width;
                 int y = (int) Math.floor(index / width);
+                // System.out.println("index:" + index + " x:" + x + " y:" + y + " red:" + red);
                 image.setPixel(x, y, red, green, blue);
             }
             cursor += runLength;
         }  
-        System.out.println("encodingList: \n" + this);
-        System.out.println("constructed image: \n" + image);
+        // System.out.println("encodingList: \n" + this);
+        // System.out.println("constructed image: \n" + image);
         return image;
     }
 
@@ -200,8 +202,8 @@ public class RunLengthEncoding implements Iterable {
         pixel prevPixel = null;
 
         // loop over each pixel in the image
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
                 // get the RGB intensities
                 short r = image.getRed(x, y);
                 short g = image.getGreen(x, y);
@@ -215,10 +217,13 @@ public class RunLengthEncoding implements Iterable {
                     encodingList.head.prev.runLength++;
                 } else {
                     // start of a new run
+                    // System.out.println("currentPixel:" + currentPixel + " prevPixel:" + prevPixel);
                     encodingList.insertEnd(currentPixel, 1);
+                    prevPixel = currentPixel;
                 }
             }
         }
+        System.out.println("encodingList:" + encodingList);
         check();
     }
 
@@ -240,7 +245,7 @@ public class RunLengthEncoding implements Iterable {
             }
             int runLength = node[0];
             if (runLength < 1) {
-                System.out.println("ERROR: run length < 1.");
+                System.out.println("ERROR: run length < 1. runLength:" + runLength);
                 return;
             }
             counter += runLength;
@@ -271,7 +276,7 @@ public class RunLengthEncoding implements Iterable {
      */
     public void setPixel(int x, int y, short red, short green, short blue) {
         int index = y * width + x;
-        pixel prevPixel = null;
+        pixel prevPixel = new pixel(-1, -1, -1);
         RunIterator it = new RunIterator(encodingList.head);
         while (it.hasNext()) {
             int[] run = it.next();
@@ -293,7 +298,7 @@ public class RunLengthEncoding implements Iterable {
                 if (runLength == 1) {
                     // pixel is in an individual run
 
-                    if (it.node.prev.p.equals(newPixel) && it.node.next.p.equals(newPixel)) {
+                    if (newPixel.equals(it.node.prev.p) && newPixel.equals(it.node.next.p)) {
                         // pixel will connect the prev and next run
 
                         // add the length of the current pixel
@@ -422,12 +427,11 @@ public class RunLengthEncoding implements Iterable {
         PixImage image = new PixImage(width, height);
 
         for (int x = 0; x < width; x++) {
-        for (int y = 0; y < height; y++) {
-            image.setPixel(x, y, (short) pixels[x][y], (short) pixels[x][y],
-                        (short) pixels[x][y]);
+            for (int y = 0; y < height; y++) {
+                image.setPixel(x, y, (short) pixels[x][y], (short) pixels[x][y],
+                            (short) pixels[x][y]);
+            }
         }
-        }
-
         return image;
     }
 

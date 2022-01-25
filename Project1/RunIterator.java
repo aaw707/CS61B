@@ -67,7 +67,8 @@ public class RunIterator implements Iterator {
    *  @return true if the iterator has more elements.
    */
   public boolean hasNext() {
-    if (node.next.p == null) {
+    pixel sentinel = new pixel(-1, -1, -1);
+    if (node.next.p.equals(sentinel)) {
         return false;
     } else {
         return true;

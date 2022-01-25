@@ -113,7 +113,6 @@ public class PixImage {
    * @param blue the new blue intensity for the pixel at coordinate (x, y).
    */
   public void setPixel(int x, int y, short red, short green, short blue) {
-    // Your solution here.
     if (0 <= red && 0 <= green && 0 <= blue && red <= 255 && green <= 255 && blue <= 255) {
       matrix[y][x] = new pixel(red, green, blue);
     }
@@ -132,9 +131,9 @@ public class PixImage {
     // Replace the following line with your solution.
     String dimensions = "Height: " + height + " Width: " + width;
     String matrixResults = "";
-    for (int i = 0; i < height; i++) {
-      for (int j = 0; j < width; j++) {
-        matrixResults = matrixResults + "[" + matrix[i][j].r + " " + matrix[i][j].g + " " + matrix[i][j].b + "] ";
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        matrixResults = matrixResults + "[" + matrix[y][x].r + " " + matrix[y][x].g + " " + matrix[y][x].b + "] ";
       }
       matrixResults = matrixResults + "\n";
     }
@@ -417,8 +416,8 @@ public class PixImage {
    */
   public boolean equals(PixImage image) {
 
-    System.out.println("this image:\n" + this);
-    System.out.println("compared image:\n" + this);
+    // System.out.println("this image:\n" + this);
+    // System.out.println("compared image:\n" + image);
 
     int width = getWidth();
     int height = getHeight();
@@ -430,12 +429,6 @@ public class PixImage {
 
     for (int x = 0; x < width; x++) {
       for (int y = 0; y < height; y++) {
-        System.out.println("this.red:" + getRed(x, y));
-        System.out.println("this.green:" + getGreen(x, y));
-        System.out.println("this.blue:" + getBlue(x, y));
-        System.out.println("image.red:" + image.getRed(x, y));
-        System.out.println("image.green:" + image.getGreen(x, y));
-        System.out.println("image.blue:" + image.getBlue(x, y));
         if (! (getRed(x, y) == image.getRed(x, y) &&
                getGreen(x, y) == image.getGreen(x, y) &&
                getBlue(x, y) == image.getBlue(x, y))) {

@@ -3,7 +3,7 @@ package Project1;
 
 public class DList{
     
-    private DListNode sentinel = new DListNode(null, 0);
+    private DListNode sentinel = new DListNode(new pixel(-1, -1, -1), 0);
     public DListNode head = sentinel;
     public int size;
     
@@ -67,6 +67,8 @@ public class DList{
         if (size == 0) {
             head.next = node;
             head.prev = node;
+            node.next = head;
+            node.prev = head;
         } else {
             head.prev.next = node;
             node.prev = head.prev;
@@ -94,7 +96,7 @@ public class DList{
         DListNode cursor = head;
         while (cursor.next != head) {
             cursor = cursor.next;
-            results = results + "(" + cursor.p.r + "," + cursor.p.g + "," + cursor.p.b + ") " + cursor.runLength + "   ";
+            results += cursor.toString();
         } 
         results += "]";
         return results;

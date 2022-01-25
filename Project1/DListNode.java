@@ -21,4 +21,9 @@ public class DListNode {
         next = null;
     }
 
+    public String toString() {
+        String results = " (" + p.r + "," + p.g + "," + p.b + ") " + runLength + " ";
+        return results;
+    }
+
 }
