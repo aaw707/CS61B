@@ -1,6 +1,4 @@
 package Project1;
-import java.util.Arrays;
-import java.util.Iterator;
 
 /* RunLengthEncoding.java */
 
@@ -223,7 +221,7 @@ public class RunLengthEncoding implements Iterable {
                 }
             }
         }
-        System.out.println("encodingList:" + encodingList);
+        // System.out.println("encodingList:" + encodingList);
         check();
     }
 
@@ -234,7 +232,7 @@ public class RunLengthEncoding implements Iterable {
      */
     public void check() {
         RunIterator it = new RunIterator(encodingList.head);
-        pixel prevPixel = null;
+        pixel prevPixel = new pixel(-1, -1, -1);
         int counter = 0;
         while (it.hasNext()) {
             int[] node = it.next();
@@ -275,13 +273,14 @@ public class RunLengthEncoding implements Iterable {
      *  @param blue the new blue intensity to store at coordinate (x, y).
      */
     public void setPixel(int x, int y, short red, short green, short blue) {
-        int index = y * width + x;
+        int index = y * width + x + 1;
         pixel prevPixel = new pixel(-1, -1, -1);
         RunIterator it = new RunIterator(encodingList.head);
         while (it.hasNext()) {
             int[] run = it.next();
             int runLength = run[0];
-            if (index >= runLength) {
+            // System.out.println("index:" + index + " runLength:" + runLength);
+            if (index > runLength) {
                 // the pixel is in a later run
                 index = index - runLength;
                 prevPixel = new pixel(run[1], run[2], run[3]);
@@ -309,6 +308,7 @@ public class RunLengthEncoding implements Iterable {
                         // exclude the current node and the next node, as they have been counted in the prev run
                         it.node.next.next.prev = it.node.prev;
                         it.node.prev.next = it.node.next.next;
+                        return;
 
                     } else if (it.node.prev.p.equals(newPixel)) {
                         // pixel will merge into the prev run
@@ -318,6 +318,7 @@ public class RunLengthEncoding implements Iterable {
                         // exclude the current node
                         it.node.next.prev = it.node.prev;
                         it.node.prev.next = it.node.next;
+                        return;
 
                     } else if (it.node.next.p.equals(newPixel)) {
                         // pixel will merge into the next run
@@ -327,14 +328,16 @@ public class RunLengthEncoding implements Iterable {
                         // exclude the current node
                         it.node.next.prev = it.node.prev;
                         it.node.prev.next = it.node.next;
+                        return;
 
                     } else {
                         // pixel will have an individual run
 
                         it.node.p = newPixel;
+                        return;
                     }
 
-                } else if (index == 0) {
+                } else if (index == 1) {
                     // pixel is at the beginning of a longer run
 
                     if (it.node.prev.p.equals(newPixel)) {
@@ -344,6 +347,7 @@ public class RunLengthEncoding implements Iterable {
                         it.node.prev.runLength++;
                         // subtract length of the current pixel from the current run
                         it.node.runLength--;
+                        return;
 
                     } else {
                         // pixel will have an individual run
@@ -357,6 +361,7 @@ public class RunLengthEncoding implements Iterable {
                         newRun.prev = it.node.prev;
                         it.node.prev.next = newRun;
                         it.node.prev = newRun;
+                        return;
                     }
 
                 } else if (index == runLength) {
@@ -369,6 +374,7 @@ public class RunLengthEncoding implements Iterable {
                         it.node.next.runLength++;
                         // subtract length of the current pixel from the current run
                         it.node.runLength--;
+                        return;
 
                     } else {
                         // pixel will have an individual run
@@ -382,7 +388,35 @@ public class RunLengthEncoding implements Iterable {
                         newRun.prev = it.node;
                         it.node.next.prev = newRun;
                         it.node.next = newRun;
+                        return;
                     }
+                
+                } else {
+                    // pixel is in the middle of a longer run, and will break the run 
+                    // to a prev run, a run with one pixel (this pixel), and a later run
+                    
+                    // create a new node for this pixel
+                    DListNode pixelRun = new DListNode(newPixel, 1);
+
+                    // calculate the runLength of the current run (which will be the prev run of the pixel run)
+                    int prevRunLength = index - 1;
+                    // prev run: it.node
+                    it.node.runLength = prevRunLength;
+
+                    // calculate the runLength of the later run
+                    int laterRunLength = runLength - prevRunLength - 1;
+
+                    // create a new node for the later run
+                    DListNode laterRun = new DListNode(new pixel(run[1], run[2], run[3]), laterRunLength); // pixel intensity is the same for prev/later run
+
+                    // connect the nodes
+                    pixelRun.next = laterRun;
+                    pixelRun.prev = it.node;
+                    laterRun.next = it.node.next;
+                    laterRun.prev = pixelRun;
+                    it.node.next.prev = laterRun;
+                    it.node.next = pixelRun;
+                    return;
                 }
             }
 
@@ -428,6 +462,7 @@ public class RunLengthEncoding implements Iterable {
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
+                // System.out.println("pixels[x][y]:" + (short) pixels[x][y]);
                 image.setPixel(x, y, (short) pixels[x][y], (short) pixels[x][y],
                             (short) pixels[x][y]);
             }
