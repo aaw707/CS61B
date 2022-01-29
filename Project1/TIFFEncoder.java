@@ -157,7 +157,7 @@ public class TIFFEncoder {
 
       // Write the footer, including an image file directory (IFD).
       stream.writeShort(NUM_DIRS);  // Number of image file directory entries.
-      // TODO:  width and height and others below could be LONG (32 bits).
+      // TODOx: width and height and others below could be LONG (32 bits).
       // IFD entry 0:  Image width.
       writeValueTag(stream, 256, TiffType.SHORT, width);
       // IFD entry 1:  Image height.
