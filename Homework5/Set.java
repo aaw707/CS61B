@@ -53,31 +53,32 @@ public class Set {
     //set cursor at the front of the list
     ListNode cursor = elements.front();
     Comparable cursor_item;
-    while (true) {
 
-        try {
-            // if catches here - cursor it invalid
-            // list is empty OR cursor is the last element in the list
+    try {
+
+        while (cursor.isValidNode()) {
             cursor_item = (Comparable) cursor.item();
 
             if (cursor_item.compareTo(c) > 0) {
                 // insert c before cursor
-                cursor.insertBefore(c); // won't throw an error here - cursor is already validated
+                cursor.insertBefore(c); 
                 return;
       
             } else if (cursor_item.compareTo(c) < 0) {
-                cursor = cursor.next(); // won't throw an error here - cursor is already validated
+                cursor = cursor.next(); 
             
             } else {
                 // cursor_item = c. duplicate
-                // no insertionn performed
+                // no insertion performed
                 return;
             }
-        } catch (InvalidNodeException e) {
-            // list is empty OR cursor is the last element in the list
-            elements.insertBack(c);
-            return;
         }
+        // no more item after the cursor
+        elements.insertBack(c);
+        return;
+
+    } catch (InvalidNodeException e) {
+        e.printStackTrace();
     }
   }
 
@@ -106,61 +107,58 @@ public class Set {
     Comparable this_cursor_item;
     Comparable s_cursor_item;
 
-    while (true) {
+    try {
 
-        // get the item in s cursor node
-        try {
+        while (s_cursor.isValidNode()) {
             s_cursor_item = (Comparable) s_cursor.item();
 
-        } catch (InvalidNodeException e_s) {
-            // no more item in s set
-            // no more modification to this set
-            // end the function
-            return;
-        }
+            if (this_cursor.isValidNode()) {
+                this_cursor_item = (Comparable) this_cursor.item();
 
-        // get the item in this cursor node
-        try {
-            this_cursor_item = (Comparable) this_cursor.item();
-
-        } catch (InvalidNodeException e_this) {
-            // no more item in this set
-            // insert everything remaining in s set to the end of this set
-            while (true) {
-                this.elements.insertBack(s_cursor_item);
-                try {
-                    s_cursor = s_cursor.next(); // this line should not throw an error. s_cursor has been validated
-                    s_cursor_item = (Comparable) s_cursor.item();
-                } catch (InvalidNodeException e) {
-                    // no more item in s set
-                    // end the function
-                    return;
+                // do union
+                if (this_cursor_item.compareTo(s_cursor_item) < 0) {
+                    // cursor on this set has the smaller value
+                    // "insert" this cursor node to this list
+                    this_cursor = this_cursor.next();
+        
+                } else if (this_cursor_item.compareTo(s_cursor_item) > 0) {
+                    // s set has the smaller value
+                    // insert s cursor node to this list
+                    this_cursor.insertBefore(s_cursor_item);
+                    s_cursor = s_cursor.next();
+                      
+                } else {
+                    // duplicates. take the item from this set
+                    this_cursor = this_cursor.next();
+                    s_cursor = s_cursor.next();
                 }
-            }
-        }
 
-        try {
-            if (this_cursor_item.compareTo(s_cursor_item) < 0) {
-                // cursor on this set has the smaller value
-                // "insert" this cursor node to this list
-                this_cursor = this_cursor.next();
-    
-            } else if (this_cursor_item.compareTo(s_cursor_item) > 0) {
-                // s set has the smaller value
-                // insert s cursor node to this list
-                this_cursor.insertBefore(s_cursor_item);
-                s_cursor = s_cursor.next();
-                  
             } else {
-                // duplicates. take the item from this set
-                this_cursor = this_cursor.next();
-                s_cursor = s_cursor.next();
+                // no more item in this set
+                // insert everything remaining in s set to the end of this set
+                while (s_cursor.isValidNode()) {
+                    s_cursor_item = (Comparable) s_cursor.item();
+                    this.elements.insertBack(s_cursor_item);
+                    s_cursor = s_cursor.next(); // this line should not throw an error. s_cursor has been validated
+                }
+                // remaining items in s list have been unioned into this list
+                // end function
+                return;
             }
-        } catch (InvalidNodeException e) {
-            // shouldn't throw error. the cursors are already validated
         }
-    }        
+            
+        // no more item in s set
+        // no more item to be unioned
+        // end function
+        return;
+    
+    } catch (InvalidNodeException e) {
+        e.printStackTrace();
+    }
   }
+
+
+
 
   /**
    *  intersect() modifies this Set so that it contains the intersection of
@@ -182,62 +180,66 @@ public class Set {
     Comparable this_cursor_item;
     Comparable s_cursor_item;
 
+    try {
+        
+        while (true) {
+                
+            if (this_cursor.isValidNode()) {
+                // get the item in this cursor node
+                this_cursor_item = (Comparable) this_cursor.item();
+                // System.out.println("this_cursor_item:" + this_cursor_item);
 
-    while (true) {
+                if (s_cursor.isValidNode()) {
+                    // get the item in s cursor node
+                    s_cursor_item = (Comparable) s_cursor.item();
+                    // System.out.println("s_cursor_item:" + s_cursor_item);  
 
-        // get the item in this cursor node
-        try {
-            this_cursor_item = (Comparable) this_cursor.item();
-        } catch (InvalidNodeException e) {
-            // this set has ended. no more possible intersects
-            // function ends
-            return;
-        }
+                    // do intersect
+                    if (this_cursor_item.compareTo(s_cursor_item) < 0) {
+                        // this cursor element won't appear in s set
+                        // remove it from this list
 
-        // get the item in s cursor node
-        try {
-            s_cursor_item = (Comparable) s_cursor.item();          
-        } catch (InvalidNodeException e) {
-            // s set has ended
-            // no more possible intersects
-            // remove all remaining elements in this set
-            while (true) {
-                try {
-                    this_cursor = this_cursor.next();
-                    this_cursor.prev().remove();
-                } catch (InvalidNodeException e2) {
-                    // this set has ended. no more possible intersects
-                    // function ends
+                        // move the cursor to the next
+                        this_cursor = this_cursor.next();
+                        if (this_cursor.isValidNode()) {
+                            // remove the previously compared node as it won't be an intersect
+                            this_cursor.prev().remove();
+                        } else {
+                            // the node to be removed is the last element in this set
+                            this.elements.back().remove();
+                        }
+            
+                    } else if (this_cursor_item.compareTo(s_cursor_item) > 0){
+                        // move on to the next element in s set
+                        s_cursor = s_cursor.next();
+            
+                    } else {
+                        // this item is an intersect
+                        this_cursor = this_cursor.next();
+                        s_cursor = s_cursor.next();
+                    }
+
+                } else {
+                    // s set has ended
+                    // no more possible intersects
+                    // remove all remaining elements in this set
+                    while (this_cursor.next().isValidNode()) { // this_cursor is already validated
+                        this_cursor = this_cursor.next();
+                        this_cursor.prev().remove();
+                    }
+                    // this cursor is the last element in this list
+                    // remove it
+                    this_cursor.remove();
                     return;
                 }
-            }
-        }
-
-        try {
-            if (this_cursor_item.compareTo(s_cursor_item) < 0) {
-                // this cursor element won't appear in s set
-                // remove it from this list
-                this_cursor = this_cursor.next();
-                if (this_cursor.isValidNode()) {
-                    // remove the compared node as it won't be an intersect
-                    this_cursor.prev().remove();
-                } else {
-                    // the node to be removed is the last element in this set
-                    this.elements.back().remove();
-                }
-    
-            } else if (this_cursor_item.compareTo(s_cursor_item) > 0){
-                // move on to the next element in s set
-                s_cursor = s_cursor.next();
-    
             } else {
-                // this item is an intersect
-                this_cursor = this_cursor.next();
-                s_cursor = s_cursor.next();
+                // this set has ended. no more possible intersects
+                // function ends
+                return;
             }
-        } catch (InvalidNodeException e) {
-            // shouldn't throw error. 2 cursors are already validated
         }
+    } catch (InvalidNodeException e) {
+        e.printStackTrace();
     }
   }  
 
@@ -321,8 +323,8 @@ public class Set {
     s5.insert(Integer.valueOf(15));
     System.out.println("Set s5 = " + s5);
 
-    s4.intersect(s5);
-    System.out.println("After s4.intersect(s5), s4 = " + s4);
+    s4.union(s5);
+    System.out.println("After s4.unions(s5), s4 = " + s4);
 
 
   }
