@@ -1,0 +1,33 @@
+PART I
+Formally prove that 2^n + 1 is in O(4^n - 16).
+
+for n >1, 2^n > 1, 4^n > 2^n
+for n >= 3, 4^n - 16 > 2^n + 1
+
+
+PART II
+Formally prove that if f(n) is in O(g(n)), and g(n) is in O(h(n)), then
+f(n) is in O(h(n)).
+
+Assume that there are positive c’, N’, c’’, and N’’ such that
+f(n) <= c’ g(n) for all n >= N’, and
+g(n) <= c’’ h(n) for all n >= N’’
+so that
+f(n) <= c’ g(n) <= c’ c’’ h(n)
+f(n) <= c’ c’’ h(n)
+f(n) is in O(h(n))
+
+PART III
+Formally prove that 0.01 n^2 - 1 is NOT in O(n).
+Let T(n) = 0.01 n^2 - 1, and let f(n) = n.
+
+c f(n)       c n             c                               
+------ = ------------ = ------------, 
+ T(n)    0.01 n^2 - 1   0.01 n - 1/n
+
+                                   c                       c              c 
+when n -> infinity, = ---------------------------- = -------------- = ---------- = 0
+                       0.01 infinity - 1/infinity     infinity - 0     infinity
+
+no matter how large we choose c to be,  there are no values c, N such that T(n) <= c f(n)
+for all n >= N.
