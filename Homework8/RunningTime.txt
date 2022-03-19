@@ -1,0 +1,14 @@
+Mergesort time, 1000 Integers:  2 msec.
+Quicksort time, 1000 Integers:  2 msec.
+
+Mergesort time, 10000 Integers:  8 msec.
+Quicksort time, 10000 Integers:  10 msec.
+
+Mergesort time, 100000 Integers:  79 msec.
+Quicksort time, 100000 Integers:  67 msec.
+
+Mergesort time, 1000000 Integers:  1946 msec.
+Quicksort time, 1000000 Integers:  1051 msec.
+
+Mergesort time, 10000000 Integers:  26450 msec.
+Quicksort time, 10000000 Integers:  15290 msec.
